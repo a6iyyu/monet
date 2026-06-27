@@ -1,0 +1,120 @@
+part of 'app.dart';
+
+List<RouteBase> get $appRoutes => [
+  $loginRoute,
+  $registerRoute,
+  $homeRoute,
+  $expenseTrackerRoute,
+  $nfcScannerRoute,
+];
+
+RouteBase get $loginRoute => GoRouteData.$route(path: '/login', factory: $LoginRoute._fromState);
+
+mixin $LoginRoute on GoRouteData {
+  static LoginRoute _fromState(GoRouterState state) => LoginRoute();
+
+  @override
+  String get location => GoRouteData.$location('/login');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $registerRoute => GoRouteData.$route(path: '/register', factory: $RegisterRoute._fromState);
+
+mixin $RegisterRoute on GoRouteData {
+  static RegisterRoute _fromState(GoRouterState state) => RegisterRoute();
+
+  @override
+  String get location => GoRouteData.$location('/register');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $homeRoute => GoRouteData.$route(path: '/home', factory: $HomeRoute._fromState);
+
+mixin $HomeRoute on GoRouteData {
+  static HomeRoute _fromState(GoRouterState state) => HomeRoute();
+
+  @override
+  String get location => GoRouteData.$location('/home');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $expenseTrackerRoute => GoRouteData.$route(
+  path: '/expense-tracker',
+  factory: $ExpenseTrackerRoute._fromState,
+);
+
+mixin $ExpenseTrackerRoute on GoRouteData {
+  static ExpenseTrackerRoute _fromState(GoRouterState state) => ExpenseTrackerRoute();
+
+  @override
+  String get location => GoRouteData.$location('/expense-tracker');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $nfcScannerRoute => GoRouteData.$route(
+  path: '/nfc-scanner',
+  factory: $NfcScannerRoute._fromState,
+);
+
+mixin $NfcScannerRoute on GoRouteData {
+  static NfcScannerRoute _fromState(GoRouterState state) => NfcScannerRoute();
+
+  @override
+  String get location => GoRouteData.$location('/nfc-scanner');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
