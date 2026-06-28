@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class NfcScanner extends StatefulWidget {
-  const NfcScanner({super.key});
+class NfcScannerPage extends StatefulWidget {
+  const NfcScannerPage({super.key});
 
   @override
-  State<NfcScanner> createState() => _NfcScannerState();
+  State<NfcScannerPage> createState() => _NfcScannerPageState();
 }
 
-class _NfcScannerState extends State<NfcScanner> {
+class _NfcScannerPageState extends State<NfcScannerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

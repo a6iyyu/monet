@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ExpenseTracker extends StatefulWidget {
-  const ExpenseTracker({super.key});
+class ExpenseTrackerPage extends StatefulWidget {
+  const ExpenseTrackerPage({super.key});
 
   @override
-  State<ExpenseTracker> createState() => _ExpenseTrackerState();
+  State<ExpenseTrackerPage> createState() => _ExpenseTrackerPageState();
 }
 
-class _ExpenseTrackerState extends State<ExpenseTracker> {
+class _ExpenseTrackerPageState extends State<ExpenseTrackerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

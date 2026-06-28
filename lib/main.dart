@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
+import 'package:monet/constants/routes.dart';
 import 'package:monet/routes/app.dart';
 
-void main() {
+/// Entry point of the application.
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
   runApp(const Monet());
 }
 
@@ -12,12 +16,15 @@ class Monet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GoRouter router = GoRouter(routes: $appRoutes);
+    final GoRouter router = GoRouter(
+      initialLocation: Routes.login,
+      routes: $appRoutes,
+    );
 
     return MaterialApp.router(
-      title: 'Monet',
       routerConfig: router,
       theme: ThemeData(primarySwatch: Colors.indigo),
+      title: 'Monet',
     );
   }
 }

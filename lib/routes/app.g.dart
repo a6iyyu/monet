@@ -1,12 +1,38 @@
 part of 'app.dart';
 
 List<RouteBase> get $appRoutes => [
+  $forgotPasswordRoute,
   $loginRoute,
+  $resetPasswordRoute,
   $registerRoute,
   $homeRoute,
   $expenseTrackerRoute,
   $nfcScannerRoute,
 ];
+
+RouteBase get $forgotPasswordRoute => GoRouteData.$route(
+  path: '/forgot-password',
+  factory: $ForgotPasswordRoute._fromState,
+);
+
+mixin $ForgotPasswordRoute on GoRouteData {
+  static ForgotPasswordRoute _fromState(GoRouterState state) => ForgotPasswordRoute();
+
+  @override
+  String get location => GoRouteData.$location('/forgot-password');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
 
 RouteBase get $loginRoute => GoRouteData.$route(path: '/login', factory: $LoginRoute._fromState);
 
@@ -15,6 +41,30 @@ mixin $LoginRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/login');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $resetPasswordRoute => GoRouteData.$route(
+  path: '/reset-password',
+  factory: $ResetPasswordRoute._fromState,
+);
+
+mixin $ResetPasswordRoute on GoRouteData {
+  static ResetPasswordRoute _fromState(GoRouterState state) => ResetPasswordRoute();
+
+  @override
+  String get location => GoRouteData.$location('/reset-password');
 
   @override
   void go(BuildContext context) => context.go(location);
