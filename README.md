@@ -55,5 +55,4 @@
 
 ---
 
-<br />
 <p align="center">Made with ♥️ by Rafi Abiyyu Airlangga</p>
