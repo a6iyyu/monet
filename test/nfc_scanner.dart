@@ -3,6 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 /// This is a test file for NFC scanner functionality. It contains a
 /// group of tests related to NFC tag operations.
 void main() {
+  setUp(() {
+    // Initialize any necessary resources before each test
+  });
+
   group('NFC Scanner', () {
     test('should scan an NFC tag', () {});
 

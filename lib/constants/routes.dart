@@ -22,11 +22,14 @@ class Routes {
   // Authentication
   static const String forgotPassword = '/forgot-password';
   static const String login = '/login';
+  static const String otp = '/otp';
   static const String register = '/register';
   static const String resetPassword = '/reset-password';
 
   // Features
-  static const String home = '/home';
   static const String expenseTracker = '/expense-tracker';
+  static const String home = '/home';
   static const String nfcScanner = '/nfc-scanner';
+  static const String profile = '/profile';
+  static const String settings = '/settings';
 }

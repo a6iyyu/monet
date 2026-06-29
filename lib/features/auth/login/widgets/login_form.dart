@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:monet/constants/routes.dart';
+import 'package:monet/core/security/secure_storage.dart';
 import 'package:monet/features/auth/login/services/login_service.dart';
 import 'package:monet/helpers/input_style.dart';
 
@@ -25,12 +25,12 @@ class _LoginFormState extends State<LoginForm> {
   final _inputStyle = InputStyle();
   final _loginService = LoginService();
 
+  final _storage = SecureStorage(); // Instance of secure storage to handle token storage.
   bool _isLoading = false; // State variable to indicate if a login request is in progress.
   bool _obscurePassword = true; // State variable to toggle password visibility.
 
   void _handleLogin() async {
     if (!_formKey.currentState!.validate()) return; // Validate the form fields before proceeding.
-
     setState(() => _isLoading = true);
 
     try {
@@ -38,7 +38,7 @@ class _LoginFormState extends State<LoginForm> {
       if (token == null) throw Exception('Invalid credentials, please try again.');
 
       // Store the token securely with the key 'token'.
-      await const FlutterSecureStorage().write(key: 'token', value: token);
+      await _storage.saveToken(token);
 
       // Stop the execution if the widget is no longer mounted to avoid memory leaks.
       if (!mounted) return;

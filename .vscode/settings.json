@@ -38,5 +38,10 @@
     "expense_tracker": "database",
     "network": "public",
     "nfc_scanner": "core",
+    "profile": "admin",
   },
+  "material-icon-theme.files.associations": {
+    "env.example.json": "tune",
+    "env.json": "tune",
+  }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'package:monet/constants/routes.dart';
 import 'package:monet/routes/app.dart';
@@ -7,7 +6,6 @@ import 'package:monet/routes/app.dart';
 /// Entry point of the application.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: '.env');
   runApp(const Monet());
 }
 

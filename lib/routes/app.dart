@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:monet/constants/routes.dart';
-import 'package:monet/features/auth/forgot-password/page.dart';
-import 'package:monet/features/auth/login/page.dart';
-import 'package:monet/features/auth/register/page.dart';
-import 'package:monet/features/auth/reset-password/page.dart';
-import 'package:monet/features/dashboard/page.dart';
-import 'package:monet/features/expense_tracker/page.dart';
-import 'package:monet/features/nfc_scanner/page.dart';
+import 'package:monet/features/auth/forgot-password/forgot_password_page.dart';
+import 'package:monet/features/auth/login/login_page.dart';
+import 'package:monet/features/auth/otp/otp_page.dart';
+import 'package:monet/features/auth/register/register_page.dart';
+import 'package:monet/features/auth/reset-password/reset_password_page.dart';
+import 'package:monet/features/dashboard/dashboard_page.dart';
+import 'package:monet/features/expense_tracker/expense_tracker_page.dart';
+import 'package:monet/features/nfc_scanner/nfc_scanner_page.dart';
+import 'package:monet/features/profile/profile_page.dart';
+import 'package:monet/features/settings/settings_page.dart';
 
 part 'app.g.dart';
 
@@ -27,6 +30,15 @@ class LoginRoute extends GoRouteData with $LoginRoute {
   Widget build(BuildContext context, GoRouterState state) => const LoginPage();
 }
 
+@TypedGoRoute<OtpRoute>(path: Routes.otp)
+class OtpRoute extends GoRouteData {
+  final String email;
+  OtpRoute({this.email = ''});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => OtpPage(email: email);
+}
+
 @TypedGoRoute<RegisterRoute>(path: Routes.register)
 class RegisterRoute extends GoRouteData with $RegisterRoute {
   @override
@@ -43,20 +55,32 @@ class ResetPasswordRoute extends GoRouteData with $ResetPasswordRoute {
 // Features
 // =============================================
 
-@TypedGoRoute<HomeRoute>(path: Routes.home)
-class HomeRoute extends GoRouteData with $HomeRoute {
-  @override
-  Widget build(BuildContext context, GoRouterState state) => const DashboardPage();
-}
-
 @TypedGoRoute<ExpenseTrackerRoute>(path: Routes.expenseTracker)
 class ExpenseTrackerRoute extends GoRouteData with $ExpenseTrackerRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) => const ExpenseTrackerPage();
 }
 
+@TypedGoRoute<HomeRoute>(path: Routes.home)
+class HomeRoute extends GoRouteData with $HomeRoute {
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const DashboardPage();
+}
+
 @TypedGoRoute<NfcScannerRoute>(path: Routes.nfcScanner)
 class NfcScannerRoute extends GoRouteData with $NfcScannerRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) => const NfcScannerPage();
+}
+
+@TypedGoRoute<ProfileRoute>(path: Routes.profile)
+class ProfileRoute extends GoRouteData with $ProfileRoute {
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const ProfilePage();
+}
+
+@TypedGoRoute<SettingsRoute>(path: Routes.settings)
+class SettingsRoute extends GoRouteData with $SettingsRoute {
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const SettingsPage();
 }
