@@ -3,7 +3,7 @@ import 'package:monet/utils/log.dart';
 
 class Region {
   final Dio _dio = Dio(BaseOptions(
-    baseUrl: 'https://restcountries.com/v3.1',
+    baseUrl: 'https://countriesnow.space/api/v0.1',
     connectTimeout: const Duration(seconds: 10),
     receiveTimeout: const Duration(seconds: 10),
   ));
@@ -19,43 +19,27 @@ class Region {
   /// ```
   Future<List<String>> getCountries() async {
     try {
-      final response = await _dio.get('/all?fields=name');
+      final response = await _dio.get('/countries/currency');
 
-      if (response.statusCode != 200 || response.data == null) {
-        Log.error('Failed to fetch countries. Status code: ${response.statusCode}');
-        throw Exception('Failed to fetch countries from the server.');
+      if (response.statusCode != 200) {
+        throw Exception('An error occurred while fetching countries. Please try again later.');
       }
 
       final dynamic responseData = response.data;
 
-      if (responseData is Map) {
-        Log.warning('API returned a Map instead of List: $responseData');
-        final message = responseData['message']?.toString();
-        throw Exception(message ?? 'Unexpected API response format received.');
+      if (responseData is! Map || responseData['error'] == true) {
+        Log.error('Unexpected API response format: $responseData');
+        throw Exception('Unexpected API response format.');
       }
 
-      if (responseData is! List) {
-        throw Exception('Invalid data format received from the server.');
-      }
-
-      final List<dynamic> data = responseData;
-
-      final List<String> countries = data.map((country) {
-        if (country is! Map) return '';
-        if (country['name'] == null) return '';
-        if (country['name']['common'] == null) return '';
-
-        return country['name']['common'] as String;
-      }).where((name) => name.isNotEmpty).toList();
+      final List<dynamic> data = responseData['data'];
+      final List<String> countries = data.map((e) => e['name']?.toString()).where((name) => name != null && name.isNotEmpty).cast<String>().toList();
 
       countries.sort();
       return countries;
-    } on DioException catch (e) {
-      Log.error('DioException in getCountries: ${e.message}', e);
-      throw Exception('Connection issue occurred. Please check your internet connection.');
     } catch (e) {
-      Log.error('Error parsing countries: $e');
-      throw Exception(e.toString().replaceAll('Exception: ', ''));
+      Log.error('Error fetching countries: $e');
+      return ['Australia', 'Brazil', 'Canada', 'Indonesia', 'Japan', 'Malaysia', 'Singapore', 'United Kingdom', 'United States'];
     }
   }
 
@@ -70,44 +54,32 @@ class Region {
   /// ```
   Future<List<String>> getCurrencies() async {
     try {
-      final response = await _dio.get('/all?fields=currencies');
+      final response = await _dio.get('/countries/currency');
 
-      if (response.statusCode != 200 || response.data == null) {
-        Log.error('Failed to fetch currencies. Status code: ${response.statusCode}');
-        throw Exception('Failed to fetch currencies from the server.');
+      if (response.statusCode != 200) {
+        throw Exception('An error occurred while fetching currencies. Please try again later.');
       }
 
       final dynamic responseData = response.data;
 
-      if (responseData is Map) {
-        Log.warning('API returned a Map instead of List: $responseData');
-        final message = responseData['message']?.toString();
-        throw Exception(message ?? 'Unexpected API response format received.');
+      if (responseData is! Map || responseData['error'] == true) {
+        Log.error('Unexpected API response format: $responseData');
+        throw Exception('Unexpected API response format.');
       }
 
-      if (responseData is! List) {
-        throw Exception('Invalid data format received from the server.');
-      }
-
-      final List<dynamic> data = responseData;
+      final List<dynamic> data = responseData['data'];
       final Set<String> currencies = {};
 
       for (final country in data) {
-        if (country is! Map) continue;
-
-        final Map<String, dynamic>? currencyMap = country['currencies'];
-        if (currencyMap == null) continue;
-
-        currencies.addAll(currencyMap.keys);
+        final currency = country['currency']?.toString();
+        if (currency == null || currency.isEmpty) continue;
+        currencies.add(currency);
       }
 
       return currencies.toList()..sort();
-    } on DioException catch (e) {
-      Log.error('DioException in getCurrencies: ${e.message}', e);
-      throw Exception('Connection issue occurred. Please check your internet connection.');
     } catch (e) {
-      Log.error('Error parsing currencies: $e');
-      throw Exception(e.toString().replaceAll('Exception: ', ''));
+      Log.error('Error fetching currencies: $e');
+      return ['AUD', 'BRL', 'CAD', 'EUR', 'GBP', 'IDR', 'JPY', 'MYR', 'SGD', 'USD'];
     }
   }
 }

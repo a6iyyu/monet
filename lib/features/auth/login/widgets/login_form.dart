@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:monet/constants/routes.dart';
-import 'package:monet/core/security/secure_storage.dart';
 import 'package:monet/features/auth/login/services/login_service.dart';
 import 'package:monet/helpers/input_style.dart';
 
@@ -15,59 +12,32 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   // Final variables for form key.
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   // Controllers for the email and password input fields.
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   // Instances of input style and login service to be used in the form.
-  final _inputStyle = InputStyle();
-  final _loginService = LoginService();
+  final InputStyle _inputStyle = InputStyle();
+  final LoginService _loginService = LoginService();
 
-  final _storage = SecureStorage(); // Instance of secure storage to handle token storage.
   bool _isLoading = false; // State variable to indicate if a login request is in progress.
   bool _obscurePassword = true; // State variable to toggle password visibility.
 
   void _handleLogin() async {
-    if (!_formKey.currentState!.validate()) return; // Validate the form fields before proceeding.
+    if (!_formKey.currentState!.validate()) return;
     setState(() => _isLoading = true);
 
-    try {
-      final token = await _loginService.login(_emailController.text, _passwordController.text);
-      if (token == null) throw Exception('Invalid credentials, please try again.');
+    await _loginService.handleLogin(
+      context: context,
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
 
-      // Store the token securely with the key 'token'.
-      await _storage.saveToken(token);
-
-      // Stop the execution if the widget is no longer mounted to avoid memory leaks.
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          backgroundColor: Colors.green,
-          content: Text('Login successful!'),
-        ),
-      );
-
-      context.go(Routes.home);
-    } catch (e) {
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.redAccent,
-          content: Text(e.toString().replaceAll('Exception: ', '')),
-        ),
-      );
-    } finally {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
-    }
+    if (mounted) setState(() => _isLoading = false);
   }
 
-  // Function to handle login when the form is submitted.
   @override
   void dispose() {
     _emailController.dispose();

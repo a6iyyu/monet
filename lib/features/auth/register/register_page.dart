@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:monet/constants/routes.dart';
 import 'package:monet/features/auth/register/widgets/register_form.dart';
+import 'package:monet/routes/app.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
@@ -138,7 +137,7 @@ class RegisterPage extends StatelessWidget {
                       style: GoogleFonts.poppins(color: Colors.grey.shade600),
                     ),
                     TextButton(
-                      onPressed: () => context.go(Routes.login),
+                      onPressed: () => LoginRoute().push(context),
                       child: Text(
                         'Sign In',
                         style: GoogleFonts.poppins(

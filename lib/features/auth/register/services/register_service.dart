@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:monet/constants/routes.dart';
+import 'package:monet/core/security/secure_storage.dart';
 import 'package:monet/utils/log.dart';
 
 /// A service class that handles user registration functionality.
@@ -10,7 +13,10 @@ class RegisterService {
     receiveTimeout: const Duration(seconds: 10),
   ));
 
-  Future<String?> register({
+  final SecureStorage _storage = SecureStorage();
+
+  Future<void> handleRegister({
+    required BuildContext context,
     required String fullName,
     required String email,
     required String password,
@@ -29,36 +35,65 @@ class RegisterService {
         },
       );
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return response.data['data']['token'] as String?;
+      if (response.statusCode != 200 && response.statusCode != 201) {
+        throw Exception('Registration completed, but received an unexpected response.');
       }
 
-      throw Exception('Registration completed, but received an unexpected response.');
+      final token = response.data['data']['token'] as String?;
+
+      if (token == null) {
+        throw Exception('Registration failed, invalid token received.');
+      }
+
+      await _storage.saveToken(token);
+      if (!context.mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.green,
+          content: Text('Registration successful!'),
+        ),
+      );
+
+      context.go(Routes.otp, extra: email);
     } on DioException catch (e) {
-      if (e.response == null) {
-        Log.error('DioException on register response is null: ${e.message}', e);
-        throw Exception('Network error. Please check your internet connection.');
-      }
-
+      String errorMessage = 'An unexpected error occurred during registration.';
       final statusCode = e.response?.statusCode;
 
+      if (e.response == null) {
+        Log.error('Network Error: ${e.message}', e);
+        errorMessage = 'Network error. Please check your internet connection.';
+      }
+
       if (statusCode == 409) {
-        Log.error('DioException on register response is 409: ${e.message}', e);
-        throw Exception('This email is already registered. Try logging in instead.');
+        errorMessage = 'This email is already registered. Try logging in instead.';
       }
 
       if (statusCode == 400 || statusCode == 422) {
-        Log.error('DioException on register response is 400/422: ${e.message}', e);
-        throw Exception('Invalid data provided. Please check your input fields.');
+        errorMessage = 'Invalid data provided. Please check your input fields.';
       }
 
       if (statusCode == 500) {
-        Log.error('DioException on register response is 500: ${e.message}', e);
-        throw Exception('Our servers are currently experiencing issues. Please try again later.');
+        errorMessage = 'Our servers are currently experiencing issues. Please try again later.';
       }
 
-      Log.error('DioException on register: ${e.message}', e);
-      throw Exception('An unexpected error occurred during registration.');
+      if (!context.mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.redAccent,
+          content: Text(errorMessage),
+        ),
+      );
+    } catch (e) {
+      if (!context.mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.redAccent,
+          content: Text(e.toString().replaceAll('Exception: ', '')),
+        ),
+      );
     }
   }
 }

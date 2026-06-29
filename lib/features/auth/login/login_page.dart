@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:monet/constants/routes.dart';
 import 'package:monet/features/auth/login/widgets/login_form.dart';
+import 'package:monet/routes/app.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -85,9 +84,7 @@ class LoginPage extends StatelessWidget {
                       ],
                     ),
                     TextButton(
-                      onPressed: () {
-                        context.pushNamed(Routes.forgotPassword);
-                      },
+                      onPressed: () => ForgotPasswordRoute().push(context),
                       child: Text(
                         'Forgot Password?',
                         style: GoogleFonts.poppins(
@@ -167,7 +164,7 @@ class LoginPage extends StatelessWidget {
                       style: GoogleFonts.poppins(color: Colors.grey.shade600),
                     ),
                     TextButton(
-                      onPressed: () => context.go(Routes.register),
+                      onPressed: () => RegisterRoute().push(context),
                       child: Text(
                         'Sign Up',
                         style: GoogleFonts.poppins(
