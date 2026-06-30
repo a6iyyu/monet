@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:monet/constants/routes.dart';
 import 'package:monet/core/security/secure_storage.dart';
+import 'package:monet/features/auth/login/models/login_request.dart';
 import 'package:monet/features/auth/login/models/login_response.dart';
 import 'package:monet/utils/log.dart';
 
@@ -10,18 +11,17 @@ import 'package:monet/utils/log.dart';
 class LoginService {
   // Dio instance for making HTTP requests.
   late final Dio _dio = Dio(BaseOptions(
-    baseUrl: const String.fromEnvironment('API_BASE_URL', defaultValue: 'http://localhost:8000/'),
+    baseUrl: const String.fromEnvironment('API_BASE_URL'),
     connectTimeout: const Duration(seconds: 10),
     receiveTimeout: const Duration(seconds: 10),
   ));
 
   final SecureStorage _storage = SecureStorage();
 
-  /// Login function that takes a username and password, and returns a Future
-  /// that resolves to a String (e.g., a token) or null if login fails.
   Future<void> handleLogin({ required BuildContext context, required String email, required String password }) async {
     try {
-      final response = await _dio.post(Routes.login, data: {'username': email, 'password': password});
+      final payload = LoginRequest(username: email, password: password);
+      final response = await _dio.post(Routes.login, data: payload.toJson());
 
       if (response.statusCode != 200) {
         throw Exception('Failed to log in. Please check your credentials.');

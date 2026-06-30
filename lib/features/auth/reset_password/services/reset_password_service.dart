@@ -6,7 +6,7 @@ import 'package:monet/utils/log.dart';
 
 class ResetPasswordService {
   late final Dio _dio = Dio(BaseOptions(
-    baseUrl: const String.fromEnvironment('API_BASE_URL', defaultValue: 'http://localhost:8000/'),
+    baseUrl: const String.fromEnvironment('API_BASE_URL'),
     connectTimeout: const Duration(seconds: 10),
     receiveTimeout: const Duration(seconds: 10),
   ));

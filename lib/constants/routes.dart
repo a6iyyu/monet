@@ -22,6 +22,7 @@ class Routes {
   // Authentication
   static const String forgotPassword = '/forgot-password';
   static const String login = '/login';
+  static const String logout = '/logout';
   static const String otp = '/otp';
   static const String register = '/register';
   static const String resetPassword = '/reset-password';

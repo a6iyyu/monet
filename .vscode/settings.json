@@ -34,7 +34,6 @@
     "**/windows": true,
   },
   "material-icon-theme.folders.associations": {
-    "dashboard": "home",
     "expense_tracker": "database",
     "network": "public",
     "nfc_scanner": "core",

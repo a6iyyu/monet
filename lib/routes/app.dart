@@ -6,8 +6,8 @@ import 'package:monet/features/auth/login/login_page.dart';
 import 'package:monet/features/auth/otp/otp_page.dart';
 import 'package:monet/features/auth/register/register_page.dart';
 import 'package:monet/features/auth/reset_password/reset_password_page.dart';
-import 'package:monet/features/dashboard/dashboard_page.dart';
 import 'package:monet/features/expense_tracker/expense_tracker_page.dart';
+import 'package:monet/features/home/home_page.dart';
 import 'package:monet/features/nfc_scanner/nfc_scanner_page.dart';
 import 'package:monet/features/profile/profile_page.dart';
 import 'package:monet/features/settings/settings_page.dart';
@@ -26,6 +26,12 @@ class ForgotPasswordRoute extends GoRouteData with $ForgotPasswordRoute {
 
 @TypedGoRoute<LoginRoute>(path: Routes.login)
 class LoginRoute extends GoRouteData with $LoginRoute {
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const LoginPage();
+}
+
+@TypedGoRoute<LogoutRoute>(path: Routes.logout)
+class LogoutRoute extends GoRouteData with $LogoutRoute {
   @override
   Widget build(BuildContext context, GoRouterState state) => const LoginPage();
 }
@@ -72,7 +78,7 @@ class ExpenseTrackerRoute extends GoRouteData with $ExpenseTrackerRoute {
 @TypedGoRoute<HomeRoute>(path: Routes.home)
 class HomeRoute extends GoRouteData with $HomeRoute {
   @override
-  Widget build(BuildContext context, GoRouterState state) => const DashboardPage();
+  Widget build(BuildContext context, GoRouterState state) => const HomePage();
 }
 
 @TypedGoRoute<NfcScannerRoute>(path: Routes.nfcScanner)

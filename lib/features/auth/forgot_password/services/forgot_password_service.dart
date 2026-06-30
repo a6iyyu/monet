@@ -8,7 +8,7 @@ import 'package:monet/utils/log.dart';
 /// password reset request to the backend API and handling responses.
 class ForgotPasswordService {
   late final Dio _dio = Dio(BaseOptions(
-    baseUrl: const String.fromEnvironment('API_BASE_URL', defaultValue: 'http://localhost:8000/'),
+    baseUrl: const String.fromEnvironment('API_BASE_URL'),
     connectTimeout: const Duration(seconds: 10),
     receiveTimeout: const Duration(seconds: 10),
   ));

@@ -3,37 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:monet/constants/routes.dart';
 import 'package:monet/core/security/secure_storage.dart';
+import 'package:monet/features/auth/register/models/register_request.dart';
 import 'package:monet/utils/log.dart';
 
 /// A service class that handles user registration functionality.
 class RegisterService {
   late final Dio _dio = Dio(BaseOptions(
-    baseUrl: const String.fromEnvironment('API_BASE_URL', defaultValue: 'http://localhost:8000/'),
+    baseUrl: const String.fromEnvironment('API_BASE_URL'),
     connectTimeout: const Duration(seconds: 10),
     receiveTimeout: const Duration(seconds: 10),
   ));
 
   final SecureStorage _storage = SecureStorage();
 
-  Future<void> handleRegister({
-    required BuildContext context,
-    required String fullName,
-    required String email,
-    required String password,
-    required String country,
-    required String defaultCurrency,
-  }) async {
+  Future<void> handleRegister({ required BuildContext context, required RegisterRequest request }) async {
     try {
-      final response = await _dio.post(
-        Routes.register,
-        data: {
-          'full_name': fullName,
-          'email': email,
-          'password': password,
-          'country': country,
-          'default_currency': defaultCurrency,
-        },
-      );
+      final response = await _dio.post(Routes.register, data: request.toJson());
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         throw Exception('Registration completed, but received an unexpected response.');
@@ -55,7 +40,7 @@ class RegisterService {
         ),
       );
 
-      context.go(Routes.otp, extra: email);
+      context.go(Routes.otp, extra: request.email);
     } on DioException catch (e) {
       String errorMessage = 'An unexpected error occurred during registration.';
       final statusCode = e.response?.statusCode;

@@ -5,6 +5,7 @@ List<RouteBase> get $appRoutes => [
   $forgotPasswordRoute,
   $homeRoute,
   $loginRoute,
+  $logoutRoute,
   $nfcScannerRoute,
   $otpRoute,
   $profileRoute,
@@ -44,6 +45,27 @@ mixin $LoginRoute on GoRouteData {
 
   @override
   String get location => GoRouteData.$location('/login');
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) => context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+RouteBase get $logoutRoute => GoRouteData.$route(path: '/logout', factory: $LogoutRoute._fromState);
+
+mixin $LogoutRoute on GoRouteData {
+  static LogoutRoute _fromState(GoRouterState state) => LogoutRoute();
+
+  @override
+  String get location => GoRouteData.$location('/logout');
 
   @override
   void go(BuildContext context) => context.go(location);

@@ -2,6 +2,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:monet/core/services/region.dart';
+import 'package:monet/features/auth/register/models/register_request.dart';
 import 'package:monet/features/auth/register/services/register_service.dart';
 import 'package:monet/helpers/input_style.dart';
 
@@ -36,15 +37,15 @@ class _RegisterFormState extends State<RegisterForm> {
 
     setState(() => _isLoading = true);
 
-    await _registerService.handleRegister(
-      context: context,
-      fullName: _fullNameController.text,
-      email: _emailController.text,
-      password: _passwordController.text,
-      country: _countryController.text,
+    final payload = RegisterRequest(
+      fullName:        _fullNameController.text,
+      email:           _emailController.text,
+      password:        _passwordController.text,
+      country:         _countryController.text,
       defaultCurrency: _defaultCurrencyController.text,
     );
 
+    await _registerService.handleRegister(context: context, request: payload);
     if (mounted) setState(() => _isLoading = false);
   }
 
